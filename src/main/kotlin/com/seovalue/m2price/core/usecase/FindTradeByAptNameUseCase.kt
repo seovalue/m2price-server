@@ -2,10 +2,13 @@ package com.seovalue.m2price.core.usecase
 
 import com.seovalue.m2price.adapter.outgoing.Item
 import com.seovalue.m2price.adapter.outgoing.PublicAptTradeApi
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
 class FindTradeByAptNameUseCase(
+    @Value("\${m2price.apartment-transaction.rest.service-key}")
+    private val serviceKey: String,
     private val publicAptTradeApi: PublicAptTradeApi
 ) {
     fun execute(apartment: String): Output {
@@ -18,7 +21,7 @@ class FindTradeByAptNameUseCase(
             val response = publicAptTradeApi.getAptTradeData(
                 lawdCode = "11710",
                 dealYmd = "202403",
-                serviceKey = "",
+                serviceKey = serviceKey,
                 pageNo = pageNo,
             ).execute().body()
 
